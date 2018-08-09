@@ -631,7 +631,9 @@ var ImageView = View.extend({
         // Defer the context menu action into the next animation frame
         // to work around a problem with preventDefault on Windows
         window.setTimeout(() => {
-            this._editAnnotation(annotation);
+            if (!this.activeAnnotation || this.activeAnnotation.id !== annotation.id) {
+                this.annotationSelector.editAnnotation(annotation);
+            }
             const menu = this.$('#h-annotation-context-menu');
             const position = evt.mouse.page;
             menu.removeClass('hidden');
@@ -652,5 +654,4 @@ var ImageView = View.extend({
         this._contextMenuActive = false;
     }
 });
-
 export default ImageView;
